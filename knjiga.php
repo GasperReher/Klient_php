@@ -138,64 +138,93 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
           <h2><?php echo $obj['naslov'] ?></h2>
           <p class="lead mb-0">Avtor: <?php echo $obj['avtor'] ?></p>
           <p class="lead mb-0">Žanr: <?php echo $obj['vrsta'] ?></p>
-        </div>
-      </div>
+          <?php if( $obj['stanje']==1){ ?>
+          <br />
+          <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+              <div class="form-group">
+                <select name="masina" class="form-control">
+                  <?php
+                  $fields = array("method" => "mymethod", "email" => "myemail");
+                  //echo $isci." ".$cat;ž
 
-  </section>
+                  $url = "http://localhost:8880/projekt/rest/masina/vsi/";
+                    $fields = json_encode($fields);
+                    $ch = curl_init();
 
-  <!-- Testimonials -->
-  <section class="testimonials text-center bg-light">
-    <div class="container">
-      <h2 class="mb-5">What people are saying...</h2>
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-1.jpg" alt="">
-            <h5>Margaret E.</h5>
-            <p class="font-weight-light mb-0">"This is fantastic! Thanks so much guys!"</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-2.jpg" alt="">
-            <h5>Fred S.</h5>
-            <p class="font-weight-light mb-0">"Bootstrap is amazing. I've been using it to create lots of super nice landing pages."</p>
-          </div>
-        </div>
-        <div class="col-lg-4">
-          <div class="testimonial-item mx-auto mb-5 mb-lg-0">
-            <img class="img-fluid rounded-circle mb-3" src="img/testimonials-3.jpg" alt="">
-            <h5>Sarah W.</h5>
-            <p class="font-weight-light mb-0">"Thanks so much for making these free resources available to us!"</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($fields))
+                    );
+                    $result= curl_exec($ch);
 
-  <!-- Call to Action -->
-  <section class="call-to-action text-white text-center">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <h2 class="mb-4">Ready to get started? Sign up now!</h2>
-        </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form>
-            <div class="form-row">
-              <div class="col-12 col-md-9 mb-2 mb-md-0">
-                <input type="email" class="form-control form-control-lg" placeholder="Enter your email...">
+                    curl_close($ch);
+                    $knjigomati = json_decode($result,true);
+
+
+
+                      foreach($knjigomati as $i) {
+
+                   ?>
+                  <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                <?php } ?>
+
+                </select>
+
               </div>
-              <div class="col-12 col-md-3">
-                <button type="submit" class="btn btn-block btn-lg btn-primary">Sign up!</button>
-              </div>
-            </div>
-          </form>
+
+
+              <button type="submit" name="naroci" class="btn btn-block btn-lg btn-primary">Naroči</button>
+            </form>
+
         </div>
       </div>
-    </div>
+
   </section>
+<?php } ?>
+<?php
+if(array_key_exists('naroci',$_POST)){
+  $idUpo=$_SESSION['id'];
+  $idKnjiga=$_GET["id"];
+  $masina=$_POST['masina'];
+
+
+  $fields = array("method" => "mymethod", "email" => "myemail");
+  //echo $isci." ".$cat;ž
+
+  $url = "http://localhost:8880/projekt/rest/narocilo/dodaj/$idUpo&$idKnjiga&$masina";
+    $fields = json_encode($fields);
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, $url);
+    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    'Content-Type: application/json',
+    'Content-Length: ' . strlen($fields))
+    );
+    $result= curl_exec($ch);
+
+    curl_close($ch);
+
+
+
+
+    if($result=='Uspesno'){
+    }
+     ?>
+     <div class="alert" style="padding: 20px; background-color: green; color: white; margin-bottom: 15px;">
+       <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+       Naročilo uspešno oddano!
+     </div>
+    <?php } ?>
+
+
+
 
   <!-- Footer -->
   <footer class="footer bg-light">
