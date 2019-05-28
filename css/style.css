@@ -1,0 +1,27 @@
+section.slike{
+  padding-top: 50px;
+  height: 300px;
+
+
+}
+
+.male{
+  margin-left: :30px;
+  margin-right: 30px;
+  height: 150px;
+
+}
+.cela{
+  heigth:100%;
+}
+.scroll-item{
+ display: inline-block;
+}
+.scrolling-wrapper{
+    overflow-y: hidden;
+    overflow-x: scroll;
+    width: 300px;
+    height: 150px;
+    white-space: nowrap;
+
+}

@@ -1,5 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
+
+<style>
+<?php  include'css/style.css'; ?>
+</style>
+
 <?php
 
 session_start();
@@ -30,58 +36,36 @@ session_start();
 <?php
 
 
-$_SERVER['REQUEST_METHOD']
-?>
+$_SERVER['REQUEST_METHOD'];
+$id=$_GET["id"];
 
+$fields = array("method" => "mymethod", "email" => "myemail");
+//echo $isci." ".$cat;ž
 
+$url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
+  $fields = json_encode($fields);
+  $ch = curl_init();
 
+  curl_setopt($ch, CURLOPT_URL, $url);
+  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  'Content-Type: application/json',
+  'Content-Length: ' . strlen($fields))
+  );
+  $result= curl_exec($ch);
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
-        <a class="navbar-brand" href="index.php">Odjava</a>
+  curl_close($ch);
+  $obj = json_decode($result,true);
+  $zanr=$obj['vrsta'];
 
-    </div>
-  </nav>
-
-  <!-- Masthead -->
-  <header class="masthead text-white text-center">
-    <div class="overlay"></div>
-    <div class="container">
-      <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"])." ".str_replace('"', '',  $_SESSION["priimek"]);   ?>.</h1>
-        </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
-              <div class="form-group">
-                <select name="kategorija" class="form-control">
-                  <option value="vrsta">Žanr</option>
-                  <option value="naslov">Naslov</option>
-                  <option value="avtor">Avtor</option>
-
-                </select>
-
-              </div>
-              <div class="form-group">
-
-                <input type="text" class="form-control" placeholder="Ključna beseda ..." name="kljucnaBeseda" id="pwd">
-              </div>
-
-              <button type="submit" name="isciKnj" class="btn btn-block btn-lg btn-primary">Išči</button>
-            </form>
-        </div>
-      </div>
-    </div>
-  </header>
-  <?php
 
 
   $fields = array("method" => "mymethod", "email" => "myemail");
   //echo $isci." ".$cat;ž
-  $url1="http://localhost:8880/projekt/rest/knjige/iskanje/vrsta&knjiga";
-  $url = "http://localhost:8880/projekt/rest/knjige/iskanje/";
+
+  $url = "http://localhost:8880/projekt/rest/knjige/iskanje/vrsta&$zanr";
     $fields = json_encode($fields);
     $ch = curl_init();
 
@@ -96,83 +80,50 @@ $_SERVER['REQUEST_METHOD']
     $result= curl_exec($ch);
 
     curl_close($ch);
-    $obj = json_decode($result,true);
-
-
-
+    $obje = json_decode($result,true);
 
 ?>
-  <?php
-
-    $url="http://localhost:8880/projekt/rest/knjige/iskanje/vrsta&knjiga";
-    if(array_key_exists('isciKnj',$_POST)){
-      if(($_POST["kljucnaBeseda"]!="")&&isset($_POST["kategorija"])!=""){
-
-        $isci=$_POST["kljucnaBeseda"];
-        $cat=$_POST["kategorija"];
-
-        $url = "http://localhost:8880/projekt/rest/knjige/iskanje/".$cat."&".$isci;
 
 
-      }
-      else{
-        $url = "http://localhost:8880/projekt/rest/knjige/iskanje/";
-      }
-      $fields = array("method" => "mymethod", "email" => "myemail");
-
-      //echo $isci." ".$cat;ž
 
 
-        $fields = json_encode($fields);
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($fields))
-    );
-        $result= curl_exec($ch);
-
-        curl_close($ch);
-        $obj = json_decode($result,true);
-
-
-}
-
-?>
-  <!-- Icons Grid -->
-
-
-  <?php  ?>
-  <section class="features-icons bg-light text-center" >
+  <!-- Navigation -->
+  <nav class="navbar navbar-light bg-light static-top nav">
     <div class="container">
-      <div class="row" style="width:100%">
+      <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
+        <a class="navbar-brand" href="index.php">Odjava</a>
+
+    </div>
+  </nav>
+
+  <!-- Masthead -->
+
+
+  <!-- Icons Grid -->
+  <section class="slike "  >
+
+      <div class="row scrolling-wrapper" style="width:100%">
+
         <?php
-        if(isset($obj)){
-        foreach($obj as $i) { //foreach element in $arr
+        if(isset($obje)){
+        foreach($obje as $i) { //foreach element in $arr
 
           ?>
-        <div style="disply:inline-block" class="col-lg-4">
-        <div class="features-icons-icon " style="height:300px; display:inline-block">
 
-            <div>
+
+            <div class="scroll-item">
               <a href="knjiga.php?id=<?php echo $i['id'] ?>">
-              <img src="<?php echo $i['naslovnica'] ?>" style="height:300px">
+              <img class="male" src="<?php echo $i['naslovnica'] ?>">
               </a>
             </div>
 
 
-        </div>
-        <h3> <?php echo $i["naslov"] ?></h3>
-      </div>
+
     <?php } } ?>
 
 
-      </div>
     </div>
+
   </section>
 
   <!-- Image Showcases -->
@@ -180,27 +131,16 @@ $_SERVER['REQUEST_METHOD']
     <div class="container-fluid p-0">
       <div class="row no-gutters">
 
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-1.jpg');"></div>
+        <div class="col-lg-6 order-lg-2 text-white showcase-img" >
+          <img class="cela" src="<?php echo $obj['naslovnica'] ?>">
+        </div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <h2>Fully Responsive Design</h2>
-          <p class="lead mb-0">When you use a theme created by Start Bootstrap, you know that the theme will look great on any device, whether it's a phone, tablet, or desktop the page will behave responsively!</p>
+          <h2><?php echo $obj['naslov'] ?></h2>
+          <p class="lead mb-0">Avtor: <?php echo $obj['avtor'] ?></p>
+          <p class="lead mb-0">Žanr: <?php echo $obj['vrsta'] ?></p>
         </div>
       </div>
-      <div class="row no-gutters">
-        <div class="col-lg-6 text-white showcase-img" style="background-image: url('img/bg-showcase-2.jpg');"></div>
-        <div class="col-lg-6 my-auto showcase-text">
-          <h2>Updated For Bootstrap 4</h2>
-          <p class="lead mb-0">Newly improved, and full of great utility classes, Bootstrap 4 is leading the way in mobile responsive web development! All of the themes on Start Bootstrap are now using Bootstrap 4!</p>
-        </div>
-      </div>
-      <div class="row no-gutters">
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" style="background-image: url('img/bg-showcase-3.jpg');"></div>
-        <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-          <h2>Easy to Use &amp; Customize</h2>
-          <p class="lead mb-0">Landing Page is just HTML and CSS with a splash of SCSS for users who demand some deeper customization options. Out of the box, just add your content and images, and your new landing page will be ready to go!</p>
-        </div>
-      </div>
-    </div>
+
   </section>
 
   <!-- Testimonials -->
