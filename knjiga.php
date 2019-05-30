@@ -165,7 +165,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
                     $knjigomati = json_decode($result,true);
 
 
-
+                    
                       foreach($knjigomati as $i) {
 
                    ?>

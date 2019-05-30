@@ -113,7 +113,6 @@ $_SERVER['REQUEST_METHOD']
 
         $url = "http://localhost:8880/projekt/rest/knjige/iskanje/".$cat."&".$isci;
 
-
       }
       else{
         $url = "http://localhost:8880/projekt/rest/knjige/iskanje/";
@@ -151,8 +150,24 @@ $_SERVER['REQUEST_METHOD']
     <div class="container">
       <div class="row" style="width:100%">
         <?php
+
         if(isset($obj)){
+
         foreach($obj as $i) { //foreach element in $arr
+          if(!isset($i['slika'])) continue;
+          $bytes=$i['slika'];
+          //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
+          $string = implode(array_map("chr", $bytes)); //Convert it to string
+
+          $base64 = base64_encode($string); //Encode to base64
+          $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+
+
+          //$stra=implode(" ",$i['slika']);
+
+          //$j=base64_encode($stra);
+
+          //echo $str;
 
           ?>
         <div style="disply:inline-block" class="col-lg-4">
@@ -160,7 +175,9 @@ $_SERVER['REQUEST_METHOD']
 
             <div>
               <a href="knjiga.php?id=<?php echo $i['id'] ?>">
-              <img src="<?php echo $i['naslovnica'] ?>" style="height:300px">
+
+              <?php echo $img ?>
+
               </a>
             </div>
 
