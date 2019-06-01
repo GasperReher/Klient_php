@@ -40,6 +40,7 @@ $_SERVER['REQUEST_METHOD']
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
       <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
+        <a class="navbar-brand" href="profil.php">Profil</a>
         <a class="navbar-brand" href="index.php">Odjava</a>
 
     </div>

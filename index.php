@@ -60,14 +60,15 @@ $preveri=false;
             if(isset($obj)){
             foreach($obj as $i) { //foreach element in $arr
 
-      
+
            if($i["email"]==$email &&$i["password"]==$geslo ){
              $pot = rtrim(dirname($_SERVER["PHP_SELF"]), "/\\");
              $streznik = $_SERVER["HTTP_HOST"];
              $preveri=true;
          $_SESSION["id"] =$i["id"];
          $_SESSION["ime"] =$i["ime"];
-         $_SESSION["priimek"] =$i["priimek"];;
+         $_SESSION["priimek"] =$i["priimek"];
+         $_SESSION["qr"] =$i["qrUporabnik"];
            header("Location: http://$streznik$pot/knjiznica.php");
 
            }
