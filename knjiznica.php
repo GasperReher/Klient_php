@@ -41,7 +41,7 @@ $_SERVER['REQUEST_METHOD']
     <div class="container">
       <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
         <a class="navbar-brand" href="profil.php">Profil</a>
-        <a class="navbar-brand" href="index.php">Odjava</a>
+        <a class="navbar-brand" href="odjava.php">Odjava</a>
 
     </div>
   </nav>

@@ -3,6 +3,9 @@
 <?php
 session_start();
  ?>
+ <?php if(isset($_SESSION["id"])){
+     header("Location: knjiznica.php");
+ } ?>
 <head>
 
   <meta charset="utf-8">
