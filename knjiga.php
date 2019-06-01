@@ -32,7 +32,7 @@ session_start();
 
 </head>
 
-<body>
+<body onload="load(); setimg();">
 <?php
 
 
@@ -59,6 +59,20 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
   curl_close($ch);
   $obj = json_decode($result,true);
   $zanr=$obj['vrsta'];
+
+
+  if(isset($obj['slika'])) {
+
+  $bytes=$obj['slika'];
+  //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
+  $string = implode(array_map("chr", $bytes)); //Convert it to string
+
+  $base64 = base64_encode($string); //Encode to base64
+  $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+  }
+  else{
+    $img = "<img src= 'img/noimg.jpg' style='height:250px'/>";
+  }
 
 
 
@@ -100,20 +114,33 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
 
 
   <!-- Icons Grid -->
-  <section class="slike "  >
+  <section class="slike content-to-hide"  >
 
-      <div class="row scrolling-wrapper" style="width:100%">
+      <div class="row scrolling-wrapper content-to-hide" style="width:100%">
 
         <?php
         if(isset($obje)){
         foreach($obje as $i) { //foreach element in $arr
+          if(isset($i['slika'])) {
 
+          $bytes=$i['slika'];
+          //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
+          $string = implode(array_map("chr", $bytes)); //Convert it to string
+
+          $base64 = base64_encode($string); //Encode to base64
+          $imga = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+
+          }
+
+          else{
+            $imga = "<img src= 'img/noimg.jpg' style='height:250px'/>";
+          }
           ?>
 
 
             <div class="scroll-item">
               <a href="knjiga.php?id=<?php echo $i['id'] ?>">
-              <img class="male" src="<?php echo $i['naslovnica'] ?>">
+              <?php echo $imga ?>
               </a>
             </div>
 
@@ -132,7 +159,10 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
       <div class="row no-gutters">
 
         <div class="col-lg-6 order-lg-2 text-white showcase-img" >
-          <img class="cela" src="<?php echo $obj['naslovnica'] ?>">
+          <?php echo $img ?>
+
+          <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $obj['qrKoda'] ?>&choe=UTF-8" />
+
         </div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
           <h2><?php echo $obj['naslov'] ?></h2>
@@ -165,7 +195,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
                     $knjigomati = json_decode($result,true);
 
 
-                    
+
                       foreach($knjigomati as $i) {
 
                    ?>
@@ -273,9 +303,16 @@ if(array_key_exists('naroci',$_POST)){
     </div>
   </footer>
 
+
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+  <script type="text/javascript" src="llqrcode.js"></script>
+<script type="text/javascript" src="webqr.js"></script>
+
+
 
 </body>
 
