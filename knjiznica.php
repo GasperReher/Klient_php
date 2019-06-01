@@ -155,14 +155,18 @@ $_SERVER['REQUEST_METHOD']
         if(isset($obj)){
 
         foreach($obj as $i) { //foreach element in $arr
-          if(!isset($i['slika'])) continue;
+
+          if(isset($i['slika'])) {
           $bytes=$i['slika'];
           //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
           $base64 = base64_encode($string); //Encode to base64
           $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
-
+          }
+          else{
+            $img = "<img src= 'img/noimg.jpg' style='height:250px'/>";
+          }
 
           //$stra=implode(" ",$i['slika']);
 

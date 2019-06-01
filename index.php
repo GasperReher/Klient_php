@@ -14,7 +14,7 @@ session_start();
 
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="stylesheet" type="text/css" href="style.css">
   <!-- Custom fonts for this template -->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
@@ -26,6 +26,7 @@ session_start();
 </head>
 
 <body>
+
 <?php
 $_SERVER['REQUEST_METHOD']
 ?>
@@ -106,6 +107,7 @@ $preveri=false;
   </div>
   <button type="submit" name="prijava" class="btn btn-primary">Prijava</button>
 </form>
+
         </div>
       </div>
     </div>
@@ -158,11 +160,17 @@ $preveri=false;
    ?>
 
 <h3>Neuspešna prijava!</h3>
+
 <?php }} ?>
+
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+
+
 </body>
+
+
 
 </html>
