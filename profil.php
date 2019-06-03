@@ -19,7 +19,10 @@ session_start();
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
   <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
   <!-- Custom styles for this template -->
   <link href="css/landing-page.min.css" rel="stylesheet">
 
@@ -57,8 +60,66 @@ $_SERVER['REQUEST_METHOD']
       </div>
     </div>
   </header>
+  <?php
+
+$idUpo=$_SESSION['id'];
+
+        $url = "http://localhost:8880/projekt/rest/izposoja/izpis/$idUpo";
+
+      $fields = array("method" => "mymethod", "email" => "myemail");
+
+      //echo $isci." ".$cat;ž
 
 
+        $fields = json_encode($fields);
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Content-Type: application/json',
+        'Content-Length: ' . strlen($fields))
+    );
+        $result= curl_exec($ch);
+
+        curl_close($ch);
+        $obj = json_decode($result,true);
+?>
+
+<h2>Izposojene knjige</h2>
+<table class="table table-hover">
+   <thead>
+     <tr>
+       <th>Avtor</th>
+       <th>Naslov</th>
+        <th>QR koda knjige</th>
+
+     </tr>
+   </thead>
+   <tbody>
+
+
+<?php
+        foreach($obj as $i) {
+
+          if($i['stanje']==true){
+            ?>
+              <tr>
+                  <td> <?php  echo $i['knjiga']['avtor'];  ?> </td>
+                    <td> <?php  echo $i['knjiga']['naslov'];  ?> </td>
+                      <td>  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo  $i['knjiga']['qrKoda']; ?>&choe=UTF-8" /> </td>
+              </tr>
+            <?php
+          }
+
+}
+
+
+?>
+</tbody>
+</table>
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
