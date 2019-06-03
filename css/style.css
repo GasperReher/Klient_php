@@ -1,5 +1,6 @@
 section.slike{
   padding-top: 50px;
+  padding-bottom: 50px;
   height: 300px;
 
 
@@ -20,8 +21,9 @@ section.slike{
 .scrolling-wrapper{
     overflow-y: hidden;
     overflow-x: scroll;
+    
     width: 300px;
-    height: 150px;
+    height: 200px;
     white-space: nowrap;
 
 }

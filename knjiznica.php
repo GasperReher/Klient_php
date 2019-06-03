@@ -133,14 +133,14 @@ $_SERVER['REQUEST_METHOD']
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'Content-Length: ' . strlen($fields))
-    );
+          );
         $result= curl_exec($ch);
 
         curl_close($ch);
         $obj = json_decode($result,true);
 
 
-}
+      }
 
 ?>
   <!-- Icons Grid -->
@@ -155,9 +155,33 @@ $_SERVER['REQUEST_METHOD']
         if(isset($obj)){
 
         foreach($obj as $i) { //foreach element in $arr
+          $url="http://localhost:8880/projekt/rest/knjige/knjiga/".$i['id'];
 
-          if(isset($i['slika'])) {
-          $bytes=$i['slika'];
+            $fields = array("method" => "mymethod", "email" => "myemail");
+
+            //echo $isci." ".$cat;ž
+
+
+              $fields = json_encode($fields);
+              $ch = curl_init();
+
+              curl_setopt($ch, CURLOPT_URL, $url);
+              //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+              curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+              curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+              'Content-Type: application/json',
+              'Content-Length: ' . strlen($fields))
+                );
+              $resultk= curl_exec($ch);
+
+              curl_close($ch);
+              $knj = json_decode($resultk,true);
+
+            
+
+          if(isset($knj['slika'])) {
+          $bytes=$knj['slika'];
           //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
