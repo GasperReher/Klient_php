@@ -66,7 +66,7 @@ $_SERVER['REQUEST_METHOD']
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <h4>Ime: </h4><h3><?php echo $_SESSION['ime'] ?></h3><br />
           <h4>Priimek: </h4><h3><?php echo $_SESSION['priimek'] ?></h3><br />
-          <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $_SESSION['qr'] ?>&choe=UTF-8" />
+          <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $_SESSION['qr'] ?>&choe=UTF-8" >
         </div>
       </div>
     </div>
