@@ -73,6 +73,7 @@ $preveri=false;
          $_SESSION["ime"] =$i["ime"];
          $_SESSION["priimek"] =$i["priimek"];
          $_SESSION["qr"] =$i["qrUporabnik"];
+
            header("Location: http://$streznik$pot/knjiznica.php");
 
            }

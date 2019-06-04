@@ -1,8 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-
 session_start();
+
+if (isSet($_SESSION['started'])){
+    if((time() - $_SESSION['started'] - 30*30) > 0){
+        header("Location: odjava.php");
+    }
+}
+else {
+    $_SESSION['started'] = time();
+}
  ?>
 <head>
 
@@ -52,11 +60,12 @@ $_SERVER['REQUEST_METHOD']
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"])." ".str_replace('"', '',  $_SESSION["priimek"]);   ?>.</h1>
+          <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"]);   ?>.</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
               <div class="form-group">
+                <h1 class="mb-5">LUCENE SEARCH</h1>
                 <select name="kategorija" class="form-control">
                   <option value="naslov">Naslov</option>
                   <option value="vrsta">Žanr</option>
@@ -178,7 +187,7 @@ $_SERVER['REQUEST_METHOD']
               curl_close($ch);
               $knj = json_decode($resultk,true);
 
-            
+
 
           if(isset($knj['slika'])) {
           $bytes=$knj['slika'];
