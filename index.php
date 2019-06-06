@@ -78,11 +78,9 @@ $_SERVER['REQUEST_METHOD']
       //echo $isci." ".$cat;ž
       $email=$_POST['email'];
       $geslo=$_POST['geslo'];
-
       $url = "http://localhost:8880/projekt/rest/upoti/upot/";
         $fields = json_encode($fields);
         $ch = curl_init();
-
         curl_setopt($ch, CURLOPT_URL, $url);
         //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
@@ -100,7 +98,6 @@ $_SERVER['REQUEST_METHOD']
   echo $obja;
               if(isset($obja)){
               foreach($obja as $i) { //foreach element in $arr
-
                 echo $i["email"]." ".$i["password"];
                 $valid1=strcmp($i["email"],$email);
                 $valid2=strcmp($i["password"],$geslo);
@@ -114,13 +111,9 @@ $_SERVER['REQUEST_METHOD']
            $_SESSION["priimek"] =$i["priimek"];;
           $_SESSION["qr"] =$i["qrUporabnik"];;
              header("Location: http://$streznik$pot/knjiznica.php");
-
              }
-
-
             }
            }
-
   if($preveri==false){
    ?>
 
