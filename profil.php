@@ -2,6 +2,15 @@
 <html lang="en">
 <?php
 session_start();
+if (isSet($_SESSION['started'])){
+    if((time() - $_SESSION['started'] - 30*30) > 0){
+        header("Location: odjava.php");
+    }
+}
+else {
+    $_SESSION['started'] = time();
+}
+
  ?>
 <head>
 
@@ -40,6 +49,8 @@ $_SERVER['REQUEST_METHOD']
   <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
       <a class="navbar-brand" href="index.php">Knjigomat</a>
+      <a class="navbar-brand" href="profil.php">Profil</a>
+      <a class="navbar-brand" href="odjava.php">Odjava</a>
 
     </div>
   </nav>
