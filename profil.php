@@ -94,6 +94,7 @@ $idUpo=$_SESSION['id'];
      <tr>
        <th>Avtor</th>
        <th>Naslov</th>
+         <th>Datum vrnitve</th>
         <th>QR koda knjige</th>
 
      </tr>
@@ -109,6 +110,41 @@ $idUpo=$_SESSION['id'];
               <tr>
                   <td> <?php  echo $i['knjiga']['avtor'];  ?> </td>
                     <td> <?php  echo $i['knjiga']['naslov'];  ?> </td>
+                    <?php
+                    $idK=$i['knjiga']['id'];
+                    $ur = "http://localhost:8880/projekt/rest/izposoja/vrniDatum/$idK";
+
+                  $field = array("method" => "mymethod", "email" => "myemail");
+
+                  //echo $isci." ".$cat;ž
+
+
+                    $field = json_encode($field);
+                    $ch = curl_init();
+
+                    curl_setopt($ch, CURLOPT_URL, $ur);
+                    //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Content-Length: ' . strlen($fields))
+                );
+                    $res= curl_exec($ch);
+
+                    curl_close($ch);
+                  //  echo $res;
+                    $dat = json_decode($res,true);
+                  $datum=  substr( $dat[0],0,10);
+
+
+
+ ?>
+          <td> <?php echo $datum;  ?> </td>
+
+
+
+
                       <td>  <img src="https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=<?php echo  $i['knjiga']['qrKoda']; ?>&choe=UTF-8" /> </td>
               </tr>
             <?php

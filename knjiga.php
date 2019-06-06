@@ -168,7 +168,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
           <h2><?php echo $obj['naslov'] ?></h2>
           <p class="lead mb-0">Avtor: <?php echo $obj['avtor'] ?></p>
           <p class="lead mb-0">Žanr: <?php echo $obj['vrsta'] ?></p>
-          <?php if( $obj['stanje']==1){ ?>
+          <?php if( $obj['stanje']=='navoljo'){ ?>
           <br />
           <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
               <div class="form-group">
@@ -214,8 +214,54 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
       </div>
 
   </section>
-<?php } ?>
+<?php }
+else if( $obj['stanje']=='narocena'){
+ ?>
+
+ <div class="alert" style="padding: 20px; background-color: red; color: white; margin-bottom: 15px;">
+   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Knjiga je žal rezervirana!
+ </div>
+
 <?php
+}
+else if( $obj['stanje']=='izposojena'){
+
+  $idK=$obj['id'];
+  $ur = "http://localhost:8880/projekt/rest/izposoja/vrniDatum/$idK";
+
+$field = array("method" => "mymethod", "email" => "myemail");
+
+//echo $isci." ".$cat;ž
+
+
+  $field = json_encode($field);
+  $ch = curl_init();
+
+  curl_setopt($ch, CURLOPT_URL, $ur);
+  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  'Content-Type: application/json',
+  'Content-Length: ' . strlen($fields))
+);
+  $res= curl_exec($ch);
+
+  curl_close($ch);
+//  echo $res;
+  $dat = json_decode($res,true);
+$datum=  substr( $dat[0],0,10);
+
+ ?>
+
+ <div class="alert" style="padding: 20px; background-color: red; color: white; margin-bottom: 15px;">
+   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Knjiga je žal izpsojena. Predviden datum vrnitve je <b><?php echo $datum  ?></b>!
+ </div>
+
+<?php
+}
 if(array_key_exists('naroci',$_POST)){
   $idUpo=$_SESSION['id'];
   $idKnjiga=$_GET["id"];
@@ -245,16 +291,23 @@ if(array_key_exists('naroci',$_POST)){
 
 
     if($result=='Uspesno'){
-    }
+
      ?>
      <div class="alert" style="padding: 20px; background-color: green; color: white; margin-bottom: 15px;">
        <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
        Naročilo uspešno oddano!
      </div>
-    <?php } ?>
+    <?php
 
+  }
+else{
+   ?>
+   <div class="alert" style="padding: 20px; background-color: red; color: white; margin-bottom: 15px;">
+     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+     Knjigomat je žal poln!
+   </div>
 
-
+<?php }} ?>
 
   <!-- Footer -->
   <footer class="footer bg-light">
