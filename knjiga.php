@@ -105,7 +105,6 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
   <nav class="navbar navbar-light bg-light static-top nav">
     <div class="container">
       <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
-      <a class="navbar-brand" href="profil.php">Profil</a>
         <a class="navbar-brand" href="index.php">Odjava</a>
 
     </div>
@@ -117,7 +116,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
   <!-- Icons Grid -->
   <section class="slike content-to-hide"  >
 
-      <div class="row scrolling-wrapper content-to-hide" style="width:100%; padding-left:100px">
+      <div class="row scrolling-wrapper content-to-hide" style="width:100%">
 
         <?php
         if(isset($obje)){
@@ -129,12 +128,12 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
           $base64 = base64_encode($string); //Encode to base64
-          $imga = "<img src= 'data:image/jpeg;base64, $base64' style='height:140px'/>"; //Create the image
+          $imga = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
 
           }
 
           else{
-            continue;
+            $imga = "<img src= 'img/noimg.jpg' style='height:250px'/>";
           }
           ?>
 

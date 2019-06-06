@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-session_start();
 
-if (isSet($_SESSION['started'])){
-    if((time() - $_SESSION['started'] - 30*30) > 0){
-        header("Location: odjava.php");
-    }
-}
-else {
-    $_SESSION['started'] = time();
-}
+session_start();
  ?>
 <head>
 
@@ -60,12 +52,11 @@ $_SERVER['REQUEST_METHOD']
     <div class="container">
       <div class="row">
         <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"]);   ?>.</h1>
+          <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"])." ".str_replace('"', '',  $_SESSION["priimek"]);   ?>.</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
           <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
               <div class="form-group">
-                <h1 class="mb-5">LUCENE SEARCH</h1>
                 <select name="kategorija" class="form-control">
                   <option value="naslov">Naslov</option>
                   <option value="vrsta">Žanr</option>
@@ -142,14 +133,14 @@ $_SERVER['REQUEST_METHOD']
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
         'Content-Type: application/json',
         'Content-Length: ' . strlen($fields))
-          );
+    );
         $result= curl_exec($ch);
 
         curl_close($ch);
         $obj = json_decode($result,true);
 
 
-      }
+}
 
 ?>
   <!-- Icons Grid -->
@@ -164,33 +155,9 @@ $_SERVER['REQUEST_METHOD']
         if(isset($obj)){
 
         foreach($obj as $i) { //foreach element in $arr
-          $url="http://localhost:8880/projekt/rest/knjige/knjiga/".$i['id'];
 
-            $fields = array("method" => "mymethod", "email" => "myemail");
-
-            //echo $isci." ".$cat;ž
-
-
-              $fields = json_encode($fields);
-              $ch = curl_init();
-
-              curl_setopt($ch, CURLOPT_URL, $url);
-              //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-              curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-              curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-              curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-              'Content-Type: application/json',
-              'Content-Length: ' . strlen($fields))
-                );
-              $resultk= curl_exec($ch);
-
-              curl_close($ch);
-              $knj = json_decode($resultk,true);
-
-
-
-          if(isset($knj['slika'])) {
-          $bytes=$knj['slika'];
+          if(isset($i['slika'])) {
+          $bytes=$i['slika'];
           //echo '<img src="data:image/jpeg;base64,'.base64_encode($str->load()) .'" />';
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
