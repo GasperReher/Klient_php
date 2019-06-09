@@ -3,6 +3,7 @@
 <?php
 
 session_start();
+ini_set('memory_limit', '-1');
  ?>
 <head>
 
@@ -137,6 +138,7 @@ $_SERVER['REQUEST_METHOD']
         $result= curl_exec($ch);
 
         curl_close($ch);
+
         $obj = json_decode($result,true);
 
 
