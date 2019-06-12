@@ -1,8 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+<?php  include'css/style.css'; ?>
+</style>
 <?php
 session_start();
  ?>
+
+ <?php
+if(!isset($_SESSION["id"])){
+  header("Location: index.php");
+}
+if(time()-$_SESSION["timer"]>300){
+  header("Location: odjava.php");
+}
+else{
+  $_SESSION["timer"]=time();
+}
+
+  ?>
 <head>
 
   <meta charset="utf-8">
@@ -37,9 +53,11 @@ $_SERVER['REQUEST_METHOD']
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-      <a class="navbar-brand" href="index.php">Knjigomat</a>
+  <nav class="navbar navbar-light  static-top" >
+    <div class="container" id="navbar">
+      <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
+        <a class="navbar-brand" href="profil.php">Profil</a>
+        <a class="navbar-brand" href="odjava.php">Odjava</a>
 
     </div>
   </nav>
@@ -156,6 +174,7 @@ $idUpo=$_SESSION['id'];
 ?>
 </tbody>
 </table>
+  <script src="javascript/basicjs.js"></script>
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

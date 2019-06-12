@@ -1,10 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+<style>
+<?php  include'css/style.css'; ?>
+</style>
 <?php
 
 session_start();
 ini_set('memory_limit', '-1');
  ?>
+
+ <?php
+if(!isset($_SESSION["id"])){
+  header("Location: index.php");
+}
+if(time()-$_SESSION["timer"]>300){
+  header("Location: odjava.php");
+}
+else{
+  $_SESSION["timer"]=time();
+}
+
+  ?>
 <head>
 
   <meta charset="utf-8">
@@ -38,8 +54,8 @@ $_SERVER['REQUEST_METHOD']
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
+  <nav class="navbar navbar-light  static-top" >
+    <div class="container" id="navbar">
       <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
         <a class="navbar-brand" href="profil.php">Profil</a>
         <a class="navbar-brand" href="odjava.php">Odjava</a>
@@ -164,7 +180,12 @@ $_SERVER['REQUEST_METHOD']
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
           $base64 = base64_encode($string); //Encode to base64
-          $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+          if($i["stanje"]!="navoljo"){
+            $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px; opacity:0.5'/>"; //Create the image
+          }
+          else{
+            $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>";
+          }
           }
           else{
             $img = "<img src= 'img/noimg.jpg' style='height:250px'/>";
@@ -190,7 +211,20 @@ $_SERVER['REQUEST_METHOD']
 
 
         </div>
-        <h3> <?php echo $i["naslov"] ?></h3>
+        <?php
+        if($i["stanje"]!="navoljo"){
+          ?>
+          <h3 style="opacity:0.5"> <?php echo $i["naslov"] ?></h3>
+          <?php
+        }
+        else{
+          ?>
+          <h3> <?php echo $i["naslov"] ?></h3>
+          <?php
+        }
+
+         ?>
+
       </div>
     <?php } } ?>
 
@@ -200,54 +234,11 @@ $_SERVER['REQUEST_METHOD']
   </section>
 
 
-  <!-- Footer -->
-  <footer class="footer bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#">About</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Contact</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2019. All Rights Reserved.</p>
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-facebook fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-instagram fa-2x fa-fw"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
+
 
   <!-- Bootstrap core JavaScript -->
+  <script src="javascript/basicjs.js"></script>
+
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <?php
 session_start();
  ?>
@@ -7,7 +8,9 @@ session_start();
      header("Location: knjiznica.php");
  } ?>
 <head>
-
+  <style>
+  <?php  include'css/style.css'; ?>
+  </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
@@ -39,8 +42,8 @@ $_SERVER['REQUEST_METHOD']
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
+  <nav class="navbar navbar-light static-top">
+    <div class="container" id="navbar">
       <a class="navbar-brand" href="index.php">Knjigomat</a>
 
     </div>
@@ -55,7 +58,7 @@ $_SERVER['REQUEST_METHOD']
           <h1 class="mb-5">Prijava</h1>
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-            <form  action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
+            <form  action="login.php" method="post">
   <div class="form-group">
     <label for="email">Vnesite E-pošto:</label>
     <input type="email" class="form-control" name="email" id="email">
@@ -112,7 +115,7 @@ $_SERVER['REQUEST_METHOD']
            $_SESSION["id"] =$i["id"];
            $_SESSION["ime"] =$i["ime"];
            $_SESSION["priimek"] =$i["priimek"];;
-          $_SESSION["qr"] =$i["qrUporabnik"];;
+           $_SESSION["qr"] =$i["qrUporabnik"];;
              header("Location: http://$streznik$pot/knjiznica.php");
 
              }

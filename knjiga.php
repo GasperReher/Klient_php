@@ -9,7 +9,20 @@
 <?php
 
 session_start();
+ini_set('memory_limit', '-1');
  ?>
+ <?php
+if(!isset($_SESSION["id"])){
+  header("Location: index.php");
+}
+if(time()-$_SESSION["timer"]>300){
+  header("Location: odjava.php");
+}
+else{
+  $_SESSION["timer"]=time();
+}
+
+  ?>
 <head>
 
   <meta charset="utf-8">
@@ -68,10 +81,10 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
   $string = implode(array_map("chr", $bytes)); //Convert it to string
 
   $base64 = base64_encode($string); //Encode to base64
-  $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+  $img = "<img src= 'data:image/jpeg;base64, $base64' style='height:350px'/>"; //Create the image
   }
   else{
-    $img = "<img src= 'img/noimg.jpg' style='height:250px'/>";
+    $img = "<img src= 'img/noimg.jpg' style='height:350px'/>";
   }
 
 
@@ -102,10 +115,11 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light bg-light static-top nav">
-    <div class="container">
+  <nav class="navbar navbar-light  static-top" >
+    <div class="container" id="navbar">
       <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
-        <a class="navbar-brand" href="index.php">Odjava</a>
+        <a class="navbar-brand" href="profil.php">Profil</a>
+        <a class="navbar-brand" href="odjava.php">Odjava</a>
 
     </div>
   </nav>
@@ -128,7 +142,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
           $string = implode(array_map("chr", $bytes)); //Convert it to string
 
           $base64 = base64_encode($string); //Encode to base64
-          $imga = "<img src= 'data:image/jpeg;base64, $base64' style='height:250px'/>"; //Create the image
+          $imga = "<img class='male' src= 'data:image/jpeg;base64, $base64' />"; //Create the image
 
           }
 
@@ -138,7 +152,7 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
           ?>
 
 
-            <div class="scroll-item">
+            <div class="scroll-item male">
               <a href="knjiga.php?id=<?php echo $i['id'] ?>">
               <?php echo $imga ?>
               </a>
@@ -158,10 +172,10 @@ $url = "http://localhost:8880/projekt/rest/knjige/knjiga/$id";
     <div class="container-fluid p-0">
       <div class="row no-gutters">
 
-        <div class="col-lg-6 order-lg-2 text-white showcase-img" >
+        <div class="col-lg-6 order-lg-2 text-white showcase-img prikaz" >
           <?php echo $img ?>
 
-          <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $obj['qrKoda'] ?>&choe=UTF-8" />
+
 
         </div>
         <div class="col-lg-6 order-lg-1 my-auto showcase-text">
@@ -259,6 +273,40 @@ $datum=  substr( $dat[0],0,10);
    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
   Knjiga je žal izpsojena. Predviden datum vrnitve je <b><?php echo $datum  ?></b>!
  </div>
+<?php }else if( $obj['stanje']=='vmasini'){
+
+  $idK=$obj['id'];
+  $url3 = "http://localhost:8880/projekt/rest/vmesna/vrniLokacijo/$id";
+
+$field = array("method" => "mymethod", "email" => "myemail");
+
+//echo $isci." ".$cat;ž
+
+
+  $field = json_encode($field);
+  $ch = curl_init();
+
+  curl_setopt($ch, CURLOPT_URL, $url3);
+  //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+  'Content-Type: application/json',
+  'Content-Length: ' . strlen($fields))
+);
+  $res3= curl_exec($ch);
+
+  curl_close($ch);
+//  echo $res;
+
+echo $res3;
+
+ ?>
+
+ <div class="alert" style="padding: 20px; background-color: red; color: white; margin-bottom: 15px;">
+   <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Knjiga se najaha na knjigomatu <b><?php echo $res3  ?></b>!
+ </div>
 
 <?php
 }
@@ -309,52 +357,7 @@ else{
 
 <?php }} ?>
 
-  <!-- Footer -->
-  <footer class="footer bg-light">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-6 h-100 text-center text-lg-left my-auto">
-          <ul class="list-inline mb-2">
-            <li class="list-inline-item">
-              <a href="#">About</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Contact</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Terms of Use</a>
-            </li>
-            <li class="list-inline-item">&sdot;</li>
-            <li class="list-inline-item">
-              <a href="#">Privacy Policy</a>
-            </li>
-          </ul>
-          <p class="text-muted small mb-4 mb-lg-0">&copy; Your Website 2019. All Rights Reserved.</p>
-        </div>
-        <div class="col-lg-6 h-100 text-center text-lg-right my-auto">
-          <ul class="list-inline mb-0">
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-facebook fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item mr-3">
-              <a href="#">
-                <i class="fab fa-twitter-square fa-2x fa-fw"></i>
-              </a>
-            </li>
-            <li class="list-inline-item">
-              <a href="#">
-                <i class="fab fa-instagram fa-2x fa-fw"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </footer>
+
 
 
   <!-- Bootstrap core JavaScript -->
@@ -362,8 +365,6 @@ else{
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 
-  <script type="text/javascript" src="llqrcode.js"></script>
-<script type="text/javascript" src="webqr.js"></script>
 
 
 
