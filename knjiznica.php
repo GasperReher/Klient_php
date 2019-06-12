@@ -105,12 +105,10 @@ $_SERVER['REQUEST_METHOD']
 
     curl_setopt($ch, CURLOPT_URL, $url);
     //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+    curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+    curl_setopt($ch, CURLOPT_USERPWD, "ziga2:zigaziga1");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-    'Content-Type: application/json',
-    'Content-Length: ' . strlen($fields))
-    );
+
     $result= curl_exec($ch);
 
     curl_close($ch);
@@ -130,6 +128,8 @@ $_SERVER['REQUEST_METHOD']
         $cat=$_POST["kategorija"];
 
         $url = "http://localhost:8880/projekt/rest/knjige/iskanje/".$cat."&".$isci;
+        $url= str_replace(" ","%20",$url);
+
 
       }
       else{
@@ -145,18 +145,15 @@ $_SERVER['REQUEST_METHOD']
 
         curl_setopt($ch, CURLOPT_URL, $url);
         //curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-        'Content-Type: application/json',
-        'Content-Length: ' . strlen($fields))
-    );
+
         $result= curl_exec($ch);
 
         curl_close($ch);
 
         $obj = json_decode($result,true);
-
+        print_r($obj);
 
 }
 
