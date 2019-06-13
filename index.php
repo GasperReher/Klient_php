@@ -29,6 +29,8 @@ session_start();
   <!-- Custom styles for this template -->
   <link href="css/landing-page.min.css" rel="stylesheet">
 
+  <link href="css/bard.css" rel="stylesheet">
+
 </head>
 
 <body>

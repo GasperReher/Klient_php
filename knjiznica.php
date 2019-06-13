@@ -22,25 +22,7 @@ else{
 
   ?>
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Knjigomat</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
-  <!-- Custom styles for this template -->
-  <link href="css/landing-page.min.css" rel="stylesheet">
-
+  <?php include 'head.php';?>
 </head>
 
 <body>
@@ -54,24 +36,16 @@ $_SERVER['REQUEST_METHOD']
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light  static-top" >
-    <div class="container" id="navbar">
-      <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
-        <a class="navbar-brand" href="profil.php">Profil</a>
-        <a class="navbar-brand" href="odjava.php">Odjava</a>
-
-    </div>
-  </nav>
+<?php include 'navbar.php';?>
 
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
-        <div class="col-xl-9 mx-auto">
+          <div class="col-md-10 col-lg-8 col-xl-7 mx-auto well profil" style="padding-left: 80px;padding-right: 80px;">
           <h1 class="mb-5">Pozdravljen/a <?php echo str_replace('"', '',  $_SESSION["ime"])." ".str_replace('"', '',  $_SESSION["priimek"]);   ?>.</h1>
-        </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
+          <hr>
           <form action="<?php $_SERVER['PHP_SELF'] ?>" method="post">
               <div class="form-group">
                 <select name="kategorija" class="form-control">
@@ -86,8 +60,9 @@ $_SERVER['REQUEST_METHOD']
 
                 <input type="text" class="form-control" placeholder="Ključna beseda ..." name="kljucnaBeseda" id="pwd">
               </div>
-
-              <button type="submit" name="isciKnj" class="btn btn-block btn-lg btn-primary">Išči</button>
+              <div class="wrapper">
+                <button type="submit" name="isciKnj" class="btn btn-block btn-lg btn-primary">Išči</button>
+              </div>
             </form>
         </div>
       </div>
@@ -153,7 +128,6 @@ $_SERVER['REQUEST_METHOD']
         curl_close($ch);
 
         $obj = json_decode($result,true);
-        print_r($obj);
 
 }
 

@@ -20,28 +20,7 @@ else{
 
   ?>
 <head>
-
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-
-  <title>Knjigomat</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom fonts for this template -->
-  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
-  <link href="vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-  <!-- Custom styles for this template -->
-  <link href="css/landing-page.min.css" rel="stylesheet">
-
+  <?php include 'head.php';?>
 </head>
 
 <body>
@@ -53,26 +32,17 @@ $_SERVER['REQUEST_METHOD']
 
 
   <!-- Navigation -->
-  <nav class="navbar navbar-light  static-top" >
-    <div class="container" id="navbar">
-      <a class="navbar-brand" href="knjiznica.php">Knjigomat</a>
-        <a class="navbar-brand" href="profil.php">Profil</a>
-        <a class="navbar-brand" href="odjava.php">Odjava</a>
-
-    </div>
-  </nav>
-
+<?php include 'navbar.php';?>
   <!-- Masthead -->
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
     <div class="container">
       <div class="row">
-        <div class="col-xl-9 mx-auto">
-          <h1 class="mb-5">Prikaz profila</h1>
-        </div>
-        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-          <h4>Ime: </h4><h3><?php echo $_SESSION['ime'] ?></h3><br />
-          <h4>Priimek: </h4><h3><?php echo $_SESSION['priimek'] ?></h3><br />
+        <div class="col-md-10 col-lg-8 col-xl-7 mx-auto well profil">
+            <h1 class="mb-5">Profil:</h1>
+            <hr>
+            <h3>Ime: </h3><h3><?php echo $_SESSION['ime'] ?></h3><br />
+            <h3>Priimek: </h3><h3><?php echo $_SESSION['priimek'] ?></h3>
           <img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=<?php echo $_SESSION['qr'] ?>&choe=UTF-8" >
         </div>
       </div>
