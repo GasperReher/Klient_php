@@ -153,7 +153,7 @@ $_SERVER['REQUEST_METHOD']
         curl_close($ch);
 
         $obj = json_decode($result,true);
-        print_r($obj);
+        
 
 }
 
