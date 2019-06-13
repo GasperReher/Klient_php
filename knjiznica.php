@@ -128,6 +128,10 @@ $_SERVER['REQUEST_METHOD']
         curl_close($ch);
 
         $obj = json_decode($result,true);
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 2fd0076a6acb01d965485a1b6bba8abd0186a6af
 
 }
 
